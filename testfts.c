@@ -21,6 +21,24 @@ usage(void)
 /*
  * zip --
  *  User defined Sqlite function to compress the FTS table
+ *
+ * Note that this routine converts its input argument into a blob.
+ * That means that all content coming back out of the FTS table will
+ * be of type BLOB.  If you then compare that output against an
+ * integer (as happens below in the "i = 0" test of the WHERE clause)
+ * that test will fail because the blob x'b0' is not equal to numeric
+ * zero in SQLite.
+ *
+ * One workaround here is to capture the inbound datatype to this
+ * function using sqlite3_value_type() and then encode that type as
+ * part of the compressed output.  Then on decode, use the appropriate
+ * sqlite3_result_xxxxx() routine instead of always using
+ * sqlite3_result_blob().
+ *
+ * A better approach, perhaps, is to always assume that the content
+ * of an FTS table is text (since numeric and blob content in an FTS
+ * table makes little sense), use sqlite3_result_text() in the unzip
+ * routine, and then use "i = '0'" in the WHERE clause of the query.
  */
 static void
 zip(sqlite3_context *pctx, int nval, sqlite3_value **apval)
