@@ -1,0 +1,31 @@
+USAGE:
+
+	testfts supports three options:
+		1. -w: For building database without compression
+		2. -c: For building database with compression
+		3. -s: For searching the database. This option takes a mandatory argument,
+				which is the search query itself. On successful execution it
+				should output snippet of some of the results.
+
+	Producing the Bug:
+		1. First build the database without the compression option:
+			$./testfts -w
+		
+		2. Next, search for something. For example:
+			$./testfts -s "apropos"
+			
+			You should see some search results on the terminal.
+		
+		3. Now, rebuild the database with the compression option:
+			$./testfts -c
+			
+		4. Again, perform a search query:
+			$./testfts -s "apropos"
+			
+			No output.
+			
+	Workaround:
+		Alter the form of the SQL query from:
+			"SELECT snippet(fts) FROM fts WHERE fts MATCH(query) AND i = 0"
+		with this:
+			"SELECT snippet(fts) from fts WHERE fts MATCH(query) AND i like '0'" 

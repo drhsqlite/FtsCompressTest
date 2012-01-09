@@ -1,0 +1,5 @@
+.gdbinit
+*.o
+*.db
+testfts
+
