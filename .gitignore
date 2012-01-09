@@ -1,5 +1,6 @@
 .gdbinit
 *.o
 *.db
+*.core
 testfts
 
