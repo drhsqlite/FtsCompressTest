@@ -1,3 +1,9 @@
+SCHEMA:
+	There is one FTS table in the database with two columns:
+		data: This column contains all the data
+		i: A dummy column which stores some int values. This column is for testing
+		   purposes mainly (see below).
+
 USAGE:
 
 	testfts supports three options:
